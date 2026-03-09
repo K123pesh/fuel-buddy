@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Set Token & Test Dashboard</title>
+</head>
+<body>
+    <h1>Setting Authentication Token</h1>
+    <div id="status"></div>
+    
+    <script>
+        // First, register/login to get a token
+        async function getAuthToken() {
+            try {
+                const response = await fetch('http://localhost:5003/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: 'dashboard@test.com',
+                        password: '123456'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.token) {
+                    // Set token in localStorage
+                    localStorage.setItem('fuel_buddy_token', data.token);
+                    localStorage.setItem('fuel_buddy_user', JSON.stringify(data.user));
+                    
+                    document.getElementById('status').innerHTML = `
+                        <h2>✅ Token Set Successfully</h2>
+                        <p><strong>Token:</strong> ${data.token.substring(0, 20)}...</p>
+                        <p><strong>User:</strong> ${data.user.full_name} (${data.user.email})</p>
+                        <p><strong>Redirecting to dashboard in 3 seconds...</strong></p>
+                        <p><a href="http://localhost:5173/dashboard" target="_blank">Go to Dashboard Now</a></p>
+                    `;
+                    
+                    // Redirect to dashboard after 3 seconds
+                    setTimeout(() => {
+                        window.location.href = 'http://localhost:5173/dashboard';
+                    }, 3000);
+                    
+                } else {
+                    document.getElementById('status').innerHTML = `
+                        <h2>❌ Login Failed</h2>
+                        <p>${data.message || 'Unknown error'}</p>
+                    `;
+                }
+            } catch (error) {
+                document.getElementById('status').innerHTML = `
+                    <h2>❌ Network Error</h2>
+                    <p>${error.message}</p>
+                `;
+            }
+        }
+        
+        getAuthToken();
+    </script>
+</body>
+</html>
