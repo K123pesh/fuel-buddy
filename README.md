@@ -190,6 +190,58 @@ The backend provides the following main API routes:
 - `GET /api/orders/:id` - Get order details
 - `GET /api/loyalty` - Get loyalty program details
 
+## ☁️ Cloud Deployment
+
+### Google Cloud Platform
+
+This project can be deployed to Google Cloud Platform using:
+
+- **Backend**: Google Cloud Run (containerized)
+- **Frontend**: Firebase Hosting (static files)
+- **Database**: MongoDB Atlas (recommended)
+
+For detailed deployment instructions, see [Google Cloud Deployment Guide](./docs/GOOGLE_CLOUD_DEPLOYMENT.md).
+
+#### Quick Start Deployment
+
+1. Run the automated deployment script:
+   ```powershell
+   .\deploy-google-cloud.ps1
+   ```
+
+2. Or follow the manual steps in the deployment guide.
+
+#### Prerequisites for Cloud Deployment
+
+- Google Cloud Account with a project
+- Google Cloud SDK (gcloud CLI)
+- Firebase CLI
+- Docker
+- MongoDB Atlas account
+
+### Netlify
+
+The frontend can be deployed to Netlify for static hosting:
+
+- **Frontend**: Netlify (static hosting with CI/CD)
+- **Backend**: Can be deployed separately (Cloud Run, Railway, etc.)
+- **Database**: MongoDB Atlas (recommended)
+
+For detailed deployment instructions, see [Netlify Deployment Guide](./docs/NETLIFY_DEPLOYMENT.md).
+
+#### Quick Start Deployment
+
+1. Push your code to a Git repository
+2. Connect your repository to Netlify
+3. Set the `VITE_API_URL` environment variable in Netlify dashboard
+4. Deploy - Netlify will automatically build using the `netlify.toml` configuration
+
+#### Prerequisites for Netlify Deployment
+
+- Netlify account (free tier works)
+- Git repository (GitHub, GitLab, or Bitbucket)
+- Backend API URL
+
 ## 🤝 Contributing
 
 1. Fork the repository
